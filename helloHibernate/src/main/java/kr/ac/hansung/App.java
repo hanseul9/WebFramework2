@@ -4,6 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 /**
  * Hello world!
@@ -26,10 +29,21 @@ public class App
         product1.setPrice(2000);
         product1.setDescription("Awesome Notebook");
 
-        session.save(product1);
+        Product product2 = new Product();
+        product2.setName("노트북2");
+        product2.setPrice(1000);
+        product2.setDescription("Powerful Notebook");
 
-        Product saveProduct = session.get(Product.class, product1.getId());
-        System.out.println("saveProduct = " + saveProduct);
+        session.save(product1);
+        session.save(product2);
+
+//        Product saveProduct = session.get(Product.class, product1.getId());
+//        System.out.println("saveProduct = " + saveProduct);
+
+        Query<Product> aQuery = session.createQuery("from Product order by name ", Product.class);
+        List<Product> products = aQuery.getResultList();
+        System.out.println("products = " + products);
+
 
         tx.commit();
         session.close();
