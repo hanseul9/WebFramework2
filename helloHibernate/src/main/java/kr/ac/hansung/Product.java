@@ -7,8 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Getter @Setter
-@ToString
-
+//@ToString
 @Entity
 @Table(name = "product")
 public class Product {
@@ -24,4 +23,14 @@ public class Product {
     @JoinColumn(name="category_id")
     private Category category;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", Description='" + Description + '\'' +
+                ", category=" + category.getName()+
+                '}';
+    }
 }

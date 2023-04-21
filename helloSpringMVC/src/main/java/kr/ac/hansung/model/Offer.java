@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.stereotype.Controller;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -13,8 +15,13 @@ import javax.validation.constraints.Size;
 @Setter
 @ToString
 @NoArgsConstructor
+@Entity
+@Table(name="offer_table")
 public class Offer { //dto
 
+    @Id
+    @GeneratedValue
+    @Column(name="offer_id")
     private int id;
 
     @Size(min=2, max=100, message = "Name must be between 2 and 100 chars")
