@@ -34,4 +34,9 @@ public class Offer { //dto
     @Size(min=5, max=100, message = "Text must be between 5 and 100 chars")
     private String text;
 
+    public Offer(String name, String email, String text) {
+        this.name = name;
+        this.email = email;
+        this.text = text;
+    }
 }
