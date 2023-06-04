@@ -6,6 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -43,6 +46,51 @@ class HellpSpringDataJpaApplicationTests {
 
         Product newProduct = productRepository.findById(savedProduct.getId()).get();
         assertEquals("OLED TV", newProduct.getName());
+    }
+
+    @Test
+    @DisplayName("Test4: findByName")
+    public void findByName() {
+        Product product = productRepository.findByName("Galaxy S21");
+        assertEquals("Galaxy S21", product.getName());
+    }
+
+    @Test
+    @DisplayName("Test5: findByNameContainingWithPaging")
+    public void findByNameContainingWithPaging() {
+
+        Pageable paging = PageRequest.of(0, 3);
+        List<Product> productList = productRepository.findByNameContaining("MacBook", paging);
+
+        System.out.println("====findByNameContainingWithPaging: Macbook=====");
+        for (Product product : productList) {
+            System.out.println("-->" + product.toString() );
+        }
+    }
+
+    @Test
+    @DisplayName("Test6: findByNameContainingWithPagingAndSort")
+    public void findByNameContainingWithPagingAndSort( ) {
+
+        Pageable paging = PageRequest.of(0, 3, Sort.Direction.DESC, "id");
+        List<Product> productList =
+                productRepository.findByNameContaining("Galaxy", paging);
+
+        System.out.println("===findByNameContainingWithPagingAndSort: Galaxy====");
+        for (Product product : productList) {
+            System.out.println("-->" + product.toString() );
+        }
+    }
+
+    @Test
+    @DisplayName("Test7: searchByNameUsingQuery")
+    public void searchByNameUsingQuery() {
+        List<Product> productList= productRepository.searchByName("Air");
+
+        System.out.println(" ====searchByNameUsingQuery: Air======");
+        for (Product product : productList) {
+            System.out.println("-->" + product.toString() );
+        }
     }
 
 }
